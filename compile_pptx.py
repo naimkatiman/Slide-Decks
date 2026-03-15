@@ -73,27 +73,16 @@ def compile_pptx():
         )
 
         # Add slide transition (fade effect)
-        # python-pptx doesn't natively support transitions,
-        # so we add them via XML manipulation
-        from lxml import etree
+        from pptx.oxml.ns import qn
 
-        transition_xml = f'''<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"
-            xmlns:p14="http://schemas.microsoft.com/office/powerpoint/2010/main">
-            <mc:Choice Requires="p14">
-                <p:transition spd="med" advClick="1">
-                    <p14:prism dir="l"/>
-                </p:transition>
-            </mc:Choice>
-            <mc:Fallback>
-                <p:transition spd="med" advClick="1">
-                    <p:fade/>
-                </p:transition>
-            </mc:Fallback>
-        </mc:AlternateContent>'''
-
-        transition_element = etree.fromstring(transition_xml)
-        slide._element.insert(0, transition_element)
+        transition = slide._element.makeelement(
+            qn('p:transition'), {'spd': 'med', 'advClick': '1'}
+        )
+        fade = transition.makeelement(qn('p:fade'), {})
+        transition.append(fade)
+        # Insert transition after cSld element
+        cSld = slide._element.find(qn('p:cSld'))
+        cSld.addnext(transition)
 
         print(f"Added slide {i} to presentation")
 
