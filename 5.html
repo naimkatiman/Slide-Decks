@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Product Suite - Built for Builders</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f9fafb;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+        .header {
+            padding: 40px 60px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #6B7280;
+            margin-top: 4px;
+        }
+        .content {
+            flex: 1;
+            padding: 20px 60px 40px;
+            display: flex;
+            gap: 32px;
+        }
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .product-card {
+            background-color: #F9FAFB;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #E5E7EB;
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .product-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #8DC63F;
+            transform: translateY(-2px);
+            background-color: #FFFFFF;
+        }
+        .product-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            background-color: #F0FDF4;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            border: 1px solid #8DC63F;
+            opacity: 0;
+            transform: rotate(-10deg);
+        }
+        .product-icon {
+            font-size: 24px;
+            color: #166534;
+        }
+        .card-content {
+            flex: 1;
+        }
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .card-desc {
+            font-size: 14px;
+            color: #4B5563;
+            line-height: 1.5;
+            margin: 0 0 12px 0;
+        }
+        .feature-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .feature-icon {
+            color: #8DC63F;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: #EFF6FF;
+            color: #1D4ED8;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 12px;
+            letter-spacing: 0.05em;
+        }
+        .highlight-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: #8DC63F;
+        }
+        .bg-pattern {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            opacity: 0.03;
+            font-size: 300px;
+            color: #111827;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUpFade {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes iconReveal {
+            from {
+                opacity: 0;
+                transform: rotate(-10deg) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        /* Staggered Animations */
+        .col-left .product-card:nth-child(1) { animation: slideUpFade 0.6s ease-out 0.2s forwards; }
+        .col-left .product-card:nth-child(2) { animation: slideUpFade 0.6s ease-out 0.5s forwards; }
+        
+        .col-right .product-card:nth-child(1) { animation: slideUpFade 0.6s ease-out 0.8s forwards; }
+        .col-right .product-card:nth-child(2) { animation: slideUpFade 0.6s ease-out 1.1s forwards; }
+
+        .col-left .product-card:nth-child(1) .product-icon-wrapper { animation: iconReveal 0.5s ease-out 0.4s forwards; }
+        .col-left .product-card:nth-child(2) .product-icon-wrapper { animation: iconReveal 0.5s ease-out 0.7s forwards; }
+        
+        .col-right .product-card:nth-child(1) .product-icon-wrapper { animation: iconReveal 0.5s ease-out 1.0s forwards; }
+        .col-right .product-card:nth-child(2) .product-icon-wrapper { animation: iconReveal 0.5s ease-out 1.3s forwards; }
+
+    </style>
+</head>
+<body style="">
+<div class="slide-container">
+<i class="fas fa-cubes bg-pattern"></i>
+<div class="header" style="z-index: 10;">
+<div>
+<h1 class="title">Product Suite - Built for Builders</h1>
+<p class="subtitle">One Platform, Every Delivery Method</p>
+</div>
+<img alt="CoinGecko" src="https://page.gensparksite.com/slides_images/de6f9ff40d6f96db5b83a29be576294c.webp" style="height: 32px;" data-height-listener-added="true">
+</div>
+<div class="content" style="z-index: 10;">
+<!-- Left Column: Core Infrastructure -->
+<div class="column col-left">
+<div class="product-card">
+<div class="product-icon-wrapper">
+<i class="fas fa-server product-icon"></i>
+</div>
+<div class="card-content">
+<h3 class="card-title">REST API (Core) <span class="badge">Phase 1 Essential</span></h3>
+<p class="card-desc">Comprehensive market data, metadata, and historical records. Ideal for price tracking and portfolio views.</p>
+<ul class="feature-list">
+<li class="feature-item"><i class="fas fa-check feature-icon"></i> Price feeds, market cap, volume (updated ~30s)</li>
+<li class="feature-item"><i class="fas fa-check feature-icon"></i> Historical OHLCV charts (10+ years)</li>
+<li class="feature-item"><i class="fas fa-check feature-icon"></i> Rich asset metadata (logos, descriptions, categories)</li>
+</ul>
+</div>
+</div>
+<div class="product-card">
+<div class="product-icon-wrapper">
+<i class="fas fa-bolt product-icon"></i>
+</div>
+<div class="card-content">
+<h3 class="card-title">WebSocket API <span class="badge" style="background-color: #FEF3C7; color: #D97706;">Phase 2 Ready</span></h3>
+<p class="card-desc">Real-time, push-based streaming for trading interfaces. Eliminates polling overhead.</p>
+<ul class="feature-list">
+<li class="feature-item"><i class="fas fa-check feature-icon"></i> Sub-second price updates for trading UI</li>
+<li class="feature-item"><i class="fas fa-check feature-icon"></i> Live trades &amp; order book snapshots</li>
+<li class="feature-item"><i class="fas fa-check feature-icon"></i> Efficient single-connection subscription model</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Right Column: Developer Experience & Tools -->
+<div class="column col-right">
+<div class="product-card">
+<div class="product-icon-wrapper">
+<i class="fas fa-code product-icon"></i>
+</div>
+<div class="card-content">
+<h3 class="card-title">SDKs &amp; Tooling</h3>
+<p class="card-desc">Official libraries to accelerate integration speed. Launch in days, not weeks.</p>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-md shadow-sm">
+<i class="fab fa-js text-yellow-500"></i>
+<span class="text-xs font-semibold text-gray-700">TypeScript</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-md shadow-sm">
+<i class="fab fa-python text-blue-500"></i>
+<span class="text-xs font-semibold text-gray-700">Python</span>
+</div>
+</div>
+<div class="mt-3 flex gap-3 text-xs text-gray-500">
+<span><i class="fas fa-book mr-1"></i> OpenAPI Spec</span>
+<span><i class="fas fa-rocket mr-1"></i> Postman Collection</span>
+</div>
+</div>
+</div>
+<div class="product-card">
+<div class="product-icon-wrapper">
+<i class="fas fa-puzzle-piece product-icon"></i>
+</div>
+<div class="card-content">
+<h3 class="card-title">Ecosystem Extras</h3>
+<p class="card-desc">No-code tools for your Operations, Finance, and AI teams.</p>
+<ul class="feature-list">
+<li class="feature-item">
+<i class="fas fa-table feature-icon"></i>
+<strong>Google Sheets Add-on</strong>
+<span class="text-gray-500 ml-1">- For Finance/Ops reporting</span>
+</li>
+<li class="feature-item">
+<i class="fas fa-robot feature-icon"></i>
+<strong>MCP Server</strong>
+<span class="text-gray-500 ml-1">- For AI Agent workflows</span>
+</li>
+<li class="feature-item">
+<i class="fas fa-chart-line feature-icon"></i>
+<strong>GeckoTerminal</strong>
+<span class="text-gray-500 ml-1">- On-chain DEX data APIs</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-bar"></div>
+</div>
+
+</body></html>

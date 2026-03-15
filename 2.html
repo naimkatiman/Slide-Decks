@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>CoinGecko at a Glance</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f9fafb;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+        .header {
+            padding: 40px 60px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Title animation */
+        .title-container {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #6B7280;
+            margin-top: 8px;
+        }
+        .content {
+            flex: 1;
+            padding: 20px 60px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+            flex: 1;
+        }
+        .metric-card {
+            background-color: #F9FAFB;
+            border-radius: 12px;
+            padding: 40px 32px;
+            border: 1px solid #E5E7EB;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            /* Animation initial state */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        /* Staggered animations for cards */
+        .metric-card:nth-child(1) {
+            animation: slideUpFade 0.6s ease-out 0.3s forwards;
+        }
+        .metric-card:nth-child(2) {
+            animation: slideUpFade 0.6s ease-out 0.5s forwards;
+        }
+        .metric-card:nth-child(3) {
+            animation: slideUpFade 0.6s ease-out 0.7s forwards;
+        }
+
+        .metric-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #8DC63F;
+            transform: translateY(-2px); /* Override hover transform safely */
+        }
+        /* Ensure hover doesn't conflict with animation completion */
+        .metric-card:hover {
+            animation: none; /* Stop animation on hover to allow transform */
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 64px;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+        .metric-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4B5563;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .metric-desc {
+            font-size: 15px;
+            color: #6B7280;
+            line-height: 1.5;
+        }
+        .metric-icon {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 32px;
+            color: #8DC63F;
+            opacity: 0.15;
+        }
+        .green-text {
+            color: #8DC63F;
+        }
+        .trust-section {
+            background-color: #111827;
+            border-radius: 16px;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+            /* Animation for trust section */
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 1.0s forwards;
+        }
+        /* Replaced gradient with solid color overlay for PDF compatibility */
+        .trust-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(141, 198, 63, 0.05);
+            pointer-events: none;
+        }
+        .trust-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #9CA3AF;
+            margin-bottom: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .client-logos {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .client-logo-wrapper {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 16px 24px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+            min-width: 160px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .client-logo-wrapper:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(141, 198, 63, 0.3);
+            transform: translateY(-2px);
+        }
+        .client-logo {
+            max-height: 40px;
+            max-width: 140px;
+            width: auto;
+            filter: brightness(0) invert(1); 
+            opacity: 0.9;
+            object-fit: contain;
+        }
+        .highlight-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: #8DC63F;
+        }
+        .watermark {
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            font-size: 300px;
+            color: #F3F4F6;
+            z-index: 0;
+            font-weight: 800;
+            opacity: 0.5;
+            font-family: 'Space Grotesk', sans-serif;
+            pointer-events: none;
+        }
+
+        /* Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Open%20Sans:wght@400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Google%20Sans:wght@400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto%20Sans%20JP:wght@400&amp;display=swap" rel="stylesheet"></head>
+<body style="">
+<div class="slide-container">
+<div class="watermark"><p>CG</p></div>
+<div class="header" style="z-index: 10;">
+<div class="title-container">
+<h1 class="title">CoinGecko at a Glance</h1>
+<p class="subtitle">The World's Largest Independent Crypto Data Aggregator</p>
+</div>
+<img alt="CoinGecko" src="https://page.gensparksite.com/slides_images/de6f9ff40d6f96db5b83a29be576294c.webp" style="height: 40px;" data-height-listener-added="true">
+</div>
+<div class="content" style="z-index: 10;">
+<!-- Metrics Grid -->
+<div class="metrics-grid">
+<div class="metric-card">
+<i class="fas fa-coins metric-icon"></i>
+<p class="metric-value">30M<span class="green-text">+</span></p>
+<p class="metric-label">On-Chain Tokens Tracked</p>
+<p class="metric-desc">Comprehensive coverage across 250+ blockchain networks via GeckoTerminal integration.</p>
+</div>
+<div class="metric-card">
+<i class="fas fa-exchange-alt metric-icon"></i>
+<p class="metric-value">1,400<span class="green-text">+</span></p>
+<p class="metric-label">Exchanges Integrated</p>
+<p class="metric-desc">Aggregating real-time data from global Centralized (CEX) &amp; Decentralized (DEX) venues.</p>
+</div>
+<div class="metric-card">
+<i class="fas fa-globe-europe metric-icon"></i>
+<p class="metric-value">10<span class="green-text">+</span> Years</p>
+<p class="metric-label">Market Data History</p>
+<p class="metric-desc">Trusted independent aggregation since 2014, providing unparalleled historical depth.</p>
+</div>
+</div>
+<!-- Trust Section with Logos -->
+<div class="trust-section">
+<p class="trust-label">Trusted by Industry Leaders</p>
+<div class="client-logos">
+<div class="client-logo-wrapper">
+<img alt="MetaMask" class="client-logo" src="https://page.gensparksite.com/slides_images/399d484a8861d669cea5e6429a9869d5.svg" data-height-listener-added="true">
+</div>
+<div class="client-logo-wrapper">
+<img alt="Kraken" class="client-logo" src="https://page.gensparksite.com/slides_images/5f0db93b5d928721ec363ea42176565c.png" data-height-listener-added="true">
+</div>
+<div class="client-logo-wrapper">
+<img alt="Coinbase" class="client-logo" src="https://page.gensparksite.com/slides_images/5a16dd7b53599662ebd35fa4ff4300b3.webp" data-height-listener-added="true">
+</div>
+<div class="client-logo-wrapper">
+<img alt="Phantom" class="client-logo" src="https://page.gensparksite.com/slides_images/f295d66a1c23f3e5acadfa9e4297e715.webp" style="width: 100.981px; height: 100.981px;" data-height-listener-added="true">
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-bar"></div>
+</div>
+
+</body></html>

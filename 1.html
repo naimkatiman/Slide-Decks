@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Powering DogePay's Crypto Future</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1F2937;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            background-image: url("https://www.genspark.ai/image_placeholder.png");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.92);
+            z-index: 1;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 80px;
+        }
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: auto;
+        }
+        .coingecko-logo {
+            height: 60px;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 64px;
+            line-height: 1.1;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .subtitle {
+            font-size: 28px;
+            line-height: 1.4;
+            color: #4B5563;
+            max-width: 800px;
+            margin-bottom: 48px;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.8s ease-out 0.4s forwards;
+        }
+        .accent-bar {
+            width: 120px;
+            height: 6px;
+            background-color: #8DC63F; /* CoinGecko Green */
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.2s forwards;
+        }
+        .presenter-info {
+            margin-top: auto;
+            border-top: 1px solid #E5E7EB;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 1.2s forwards;
+        }
+        .presenter-name {
+            font-weight: 700;
+            font-size: 20px;
+            color: #111827;
+        }
+        .presentation-meta {
+            font-size: 18px;
+            color: #6B7280;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #F0FDF4;
+            border: 1px solid #8DC63F;
+            border-radius: 9999px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #166534;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.2s forwards;
+        }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body style="">
+<div class="slide-container">
+<div class="overlay"></div>
+<div class="content-wrapper">
+<!-- Header -->
+<div class="brand-header">
+<!-- CoinGecko Logo Placeholder -->
+<img alt="CoinGecko Logo" class="coingecko-logo" src="https://page.gensparksite.com/slides_images/de6f9ff40d6f96db5b83a29be576294c.webp" data-height-listener-added="true">
+<div class="text-right">
+<p class="text-gray-500 font-medium tracking-wide text-sm uppercase"><br></p>
+</div>
+</div>
+<!-- Main Title Area -->
+<div class="main-content">
+<div class="accent-bar"></div>
+<div class="badge">
+<span>CoinGecko API × DogePay</span>
+</div>
+<h1 class="title">
+                Powering DogePay's<br>
+<span style="color: #8DC63F;">Crypto Future</span>
+</h1>
+<p class="subtitle">
+                A technical &amp; commercial introduction to the world's most comprehensive independent crypto data aggregator.
+            </p>
+</div>
+<!-- Footer -->
+<div class="presenter-info">
+<div>
+<p class="presenter-name">Naim</p>
+<p class="text-gray-500 text-sm mt-1">Senior Solutions Engineer&nbsp;</p>
+</div>
+<div class="presentation-meta">
+<p>&nbsp;</p>
+</div>
+</div>
+</div>
+<!-- Decorative Visual Element -->
+<div style="position: absolute; right: -100px; bottom: -100px; width: 600px; height: 600px; border-radius: 50%; border: 80px solid rgba(141, 198, 63, 0.05); z-index: 1;"></div>
+<div style="position: absolute; right: 50px; bottom: 50px; width: 400px; height: 400px; border-radius: 50%; border: 40px solid rgba(141, 198, 63, 0.1); z-index: 1;"></div>
+</div>
+
+</body></html>

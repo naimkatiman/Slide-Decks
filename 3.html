@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Data Integrity &amp; Trust</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f9fafb;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .header {
+            padding: 40px 60px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #6B7280;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        .content {
+            flex: 1;
+            padding: 10px 60px 40px;
+            display: flex;
+            gap: 40px;
+            height: calc(100% - 140px); /* Ensure content fits */
+        }
+        .left-panel {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+        }
+        .right-panel {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            justify-content: center;
+        }
+        .trust-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px 24px;
+            background-color: #F9FAFB;
+            border-radius: 12px;
+            border-left: 4px solid #8DC63F;
+            transition: transform 0.2s;
+            opacity: 0; /* Initial state for animation */
+        }
+        .trust-item:hover {
+            transform: translateX(5px) !important; /* Override animation transform on hover */
+            background-color: #F0FDF4;
+        }
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            border: 1px solid #E5E7EB;
+            color: #8DC63F;
+            font-size: 20px;
+        }
+        .item-content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 4px 0;
+        }
+        .item-content p {
+            font-size: 14px;
+            color: #4B5563;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .compliance-card {
+            background-color: #111827;
+            color: white;
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* Initial state for animation */
+        }
+        .compliance-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .compliance-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-left: 16px;
+        }
+        .badge-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .compliance-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .badge-icon {
+            color: #8DC63F;
+            font-size: 24px;
+            margin-right: 16px;
+        }
+        .badge-info h4 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .badge-info p {
+            margin: 4px 0 0 0;
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+        .stat-highlight {
+            background-color: #F0FDF4;
+            border: 1px solid #8DC63F;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            opacity: 0; /* Initial state for animation */
+        }
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #166534;
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #15803D;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 8px;
+        }
+        .highlight-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: #8DC63F;
+        }
+        .bg-pattern {
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 200px;
+            color: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Animation Delays */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-card { animation-delay: 0.8s; }
+        .delay-stat { animation-delay: 1.2s; }
+
+        .animate-left {
+            animation: slideInLeft 0.5s ease-out forwards;
+        }
+        .animate-right {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+        .animate-scale {
+            animation: scaleIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body style="">
+<div class="slide-container">
+<div class="header">
+<div>
+<h1 class="title">Data Integrity &amp; Trust</h1>
+<p class="subtitle">Auditable methodology built for regulated financial institutions</p>
+</div>
+<img alt="CoinGecko" src="https://page.gensparksite.com/slides_images/de6f9ff40d6f96db5b83a29be576294c.webp" style="height: 40px;" data-height-listener-added="true">
+</div>
+<div class="content">
+<div class="left-panel">
+<div class="trust-item animate-left delay-1">
+<div class="icon-box">
+<i class="fas fa-search-dollar"></i>
+</div>
+<div class="item-content">
+<h3>Published Price Methodology</h3>
+<p>Transparent aggregation logic (volume-weighted, outlier filtering) publicly documented for audit trails. Not a "black box" feed.</p>
+</div>
+</div>
+<div class="trust-item animate-left delay-2">
+<div class="icon-box">
+<i class="fas fa-history"></i>
+</div>
+<div class="item-content">
+<h3>10+ Years Historical Data</h3>
+<p>Complete OHLCV history since 2014. Essential for backtesting, tax reporting, and regulatory inquiries.</p>
+</div>
+</div>
+<div class="trust-item animate-left delay-3">
+<div class="icon-box">
+<i class="fas fa-stopwatch"></i>
+</div>
+<div class="item-content">
+<h3>Stale Price Detection</h3>
+<p>API returns <code>last_updated_at</code> timestamps. Built-in safeguards to flag stale data before it reaches your users.</p>
+</div>
+</div>
+<div class="trust-item animate-left delay-4">
+<div class="icon-box">
+<i class="fas fa-server"></i>
+</div>
+<div class="item-content">
+<h3>Transparent Uptime Status</h3>
+<p>Public status page with historical uptime metrics. We don't hide incidents; we resolve them.</p>
+</div>
+</div>
+</div>
+<div class="right-panel">
+<div class="compliance-card animate-right delay-card" style="transform: translate(-9.31285px, -22.118px);">
+<i class="fas fa-shield-halved bg-pattern"></i>
+<div class="compliance-header">
+<i class="fas fa-certificate text-3xl text-green-500"></i>
+<span class="compliance-title">Compliance Ready</span>
+</div>
+<div class="badge-grid">
+<div class="compliance-badge" style="position: relative; transform: translate(-2.32821px, -12.8052px);">
+<i class="fas fa-lock badge-icon"></i>
+<div class="badge-info">
+<h4>SOC 2 Type 2</h4>
+<p>Enterprise-grade security controls &amp; data privacy</p>
+</div>
+</div>
+<div class="compliance-badge" style="position: relative; transform: translate(-1.16411px, -15.1334px);">
+<i class="fas fa-user-shield badge-icon"></i>
+<div class="badge-info">
+<h4>GDPR Compliant</h4>
+<p>No PII processing; aligned with EU data standards</p>
+</div>
+</div>
+<div class="compliance-badge" style="position: relative; transform: translate(1.16411px, -20.9539px);">
+<i class="fas fa-file-contract badge-icon"></i>
+<div class="badge-info">
+<h4>MiCA Support</h4>
+<p>Asset metadata &amp; classification data for CASPs</p>
+</div>
+</div>
+</div>
+</div>
+<div class="stat-highlight animate-scale delay-stat">
+<div class="stat-value">99.9%</div>
+<div class="stat-label">Uptime SLA Guarantee</div>
+<p class="text-xs text-green-700 mt-2 font-medium">Available on Enterprise Plans</p>
+</div>
+</div>
+</div>
+<div class="highlight-bar"></div>
+</div>
+
+</body></html>

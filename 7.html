@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Suggested Architecture</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f9fafb;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+        .header {
+            padding: 30px 60px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #6B7280;
+            margin-top: 4px;
+        }
+        .content {
+            flex: 1;
+            padding: 10px 60px 40px;
+            display: flex;
+            gap: 40px;
+            position: relative;
+        }
+        .diagram-area {
+            flex: 2.2;
+            background-color: #F9FAFB;
+            border-radius: 16px;
+            border: 1px solid #E5E7EB;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.2s forwards;
+        }
+        .notes-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        /* Architecture Blocks - Flexbox Layout */
+        .arch-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .arch-block {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 12px 16px;
+            width: 180px;
+            height: 70px;
+            position: absolute;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        
+        .arch-block-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            color: #111827;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+        .arch-block-desc {
+            font-size: 10px;
+            color: #6B7280;
+            line-height: 1.2;
+        }
+        .arch-icon {
+            margin-right: 6px;
+            font-size: 12px;
+        }
+        
+        /* Specific Block Styling & Positioning */
+        /* Left Column */
+        #block-app { 
+            left: 40px; 
+            top: 235px; /* Center vertical */
+            border-left: 4px solid #3B82F6; 
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
+        }
+        
+        /* Center Column */
+        #block-backend { 
+            left: 310px; 
+            top: 235px; /* Center vertical */
+            border-left: 4px solid #8B5CF6; 
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s forwards;
+        }
+        
+        /* Top Row (above Backend) */
+        #block-redis { 
+            left: 310px; 
+            top: 60px; /* High up */
+            border-left: 4px solid #EF4444; 
+            border-style: dashed; 
+            background-color: #FEF2F2; 
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
+        }
+        
+        /* Right Column Top */
+        #block-rest { 
+            right: 40px; 
+            top: 110px; 
+            border-left: 4px solid #166534; 
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.0s forwards;
+        }
+        
+        /* Right Column Bottom */
+        #block-ws { 
+            right: 40px; 
+            bottom: 110px; 
+            border-left: 4px solid #D97706; 
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
+        }
+        
+        /* SVG Layer */
+        .connections-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        /* Labels */
+        .connection-label {
+            background-color: #F3F4F6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            color: #4B5563;
+            font-weight: 600;
+            position: absolute;
+            z-index: 20;
+            white-space: nowrap;
+            border: 1px solid #E5E7EB;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 1.5s forwards;
+        }
+        
+        /* Right Side Cards */
+        .key-point-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid #E5E7EB;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            margin-bottom: 0;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        .key-point-card:nth-child(1) { animation: slideInRight 0.5s ease-out 1.4s forwards; }
+        .key-point-card:nth-child(2) { animation: slideInRight 0.5s ease-out 1.6s forwards; }
+        .key-point-card:nth-child(3) { animation: slideInRight 0.5s ease-out 1.8s forwards; }
+        
+        .key-point-card.highlight {
+            border-left-color: #8DC63F;
+            background-color: #F0FDF4;
+        }
+        .key-point-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: #111827;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        .key-point-text p {
+            font-size: 12px;
+            color: #4B5563;
+            line-height: 1.4;
+            margin: 0;
+        }
+        .stat-box {
+            margin-top: 8px;
+            background-color: #DCFCE7;
+            border-radius: 6px;
+            padding: 8px;
+            color: #166534;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .highlight-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: #8DC63F;
+        }
+        
+        /* SVG Line Styles */
+        .line-path {
+            fill: none;
+            stroke: #9CA3AF;
+            stroke-width: 2;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+        .line-path.solid {
+            stroke: #6B7280;
+        }
+        .line-path.dashed {
+            /* Dashed lines need specific handling for draw animation + dash effect */
+            stroke-dasharray: 6 6; /* Visible dash pattern */
+            /* We simulate draw by masking or just fading in for simplicity in PDF export context, 
+               but here we'll use stroke-dashoffset animation trick tailored for dashes */
+             stroke-dasharray: 1000; /* Reset for draw animation first */
+        }
+        
+        /* Draw animations for lines */
+        #line-1 { animation: drawLine 0.8s ease-out 0.6s forwards; }
+        #line-2 { animation: drawLine 0.6s ease-out 0.8s forwards; stroke-dasharray: 6 !important; } /* Reset to dash after draw - complex in CSS only, so we'll just fade in dashed lines */
+        #line-3 { animation: drawLine 0.8s ease-out 1.0s forwards; }
+        #line-4 { animation: drawLine 0.8s ease-out 1.2s forwards; stroke-dasharray: 6 !important; }
+
+        /* Alternative: Simple Fade In for lines to avoid dash array conflict */
+        .line-path {
+            stroke-dasharray: 0;
+            stroke-dashoffset: 0;
+            opacity: 0;
+        }
+        .line-path.dashed {
+            stroke-dasharray: 6;
+        }
+        
+        #line-1 { animation: fadeInLine 0.5s ease-out 0.6s forwards; }
+        #line-2 { animation: fadeInLine 0.5s ease-out 0.8s forwards; }
+        #line-3 { animation: fadeInLine 0.5s ease-out 1.0s forwards; }
+        #line-4 { animation: fadeInLine 0.5s ease-out 1.2s forwards; }
+
+        .arrow-head {
+            fill: #6B7280;
+            opacity: 0;
+        }
+        #arrow-1 { animation: fadeIn 0.1s ease-out 1.1s forwards; }
+        #arrow-2 { animation: fadeIn 0.1s ease-out 1.3s forwards; }
+        #arrow-3 { animation: fadeIn 0.1s ease-out 1.5s forwards; }
+        #arrow-4 { animation: fadeIn 0.1s ease-out 1.7s forwards; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInLine {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body style="">
+<div class="slide-container">
+<div class="header">
+<div>
+<h1 class="title">Suggested Architecture</h1>
+<p class="subtitle">Scalable from Day 1: Caching Strategy &amp; Phase 2 Real-Time Layer</p>
+</div>
+<img alt="CoinGecko" src="https://page.gensparksite.com/slides_images/de6f9ff40d6f96db5b83a29be576294c.webp" style="height: 32px;" data-height-listener-added="true">
+</div>
+<div class="content">
+<!-- Left Diagram Area -->
+<div class="diagram-area">
+<svg class="connections-svg" height="100%" width="100%">
+<defs>
+<marker id="arrow" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" refX="9" refY="3">
+<path class="arrow-head" d="M0,0 L0,6 L9,3 z" id="arrow-head-path"></path>
+</marker>
+</defs>
+<!-- 1. App -> Backend (Horizontal) -->
+<path class="line-path solid" d="M 220 270 L 310 270" id="line-1" marker-end="url(#arrow)"></path>
+<!-- 2. Backend -> Redis (Vertical Up) -->
+<path class="line-path dashed" d="M 400 235 L 400 130" id="line-2" marker-end="url(#arrow)"></path>
+<!-- 3. Backend -> REST API (Diagonal Up) -->
+<path class="line-path solid" d="M 490 270 C 530 270, 530 145, 570 145" id="line-3" marker-end="url(#arrow)"></path>
+<!-- 4. Backend -> WebSocket (Diagonal Down) -->
+<path class="line-path dashed" d="M 490 270 C 530 270, 530 395, 570 395" id="line-4" marker-end="url(#arrow)"></path>
+</svg>
+<!-- Blocks -->
+<div class="arch-block" id="block-app">
+<div class="arch-block-title"><i class="fas fa-mobile-alt arch-icon" style="color: #3B82F6;"></i> DogePay App</div>
+<div class="arch-block-desc">2M Users<br>Client-Side</div>
+</div>
+<div class="arch-block" id="block-backend">
+<div class="arch-block-title"><i class="fas fa-server arch-icon" style="color: #8B5CF6;"></i> Backend API</div>
+<div class="arch-block-desc">API Key Storage<br>Orchestration</div>
+</div>
+<div class="arch-block" id="block-redis">
+<div class="arch-block-title"><i class="fas fa-database arch-icon" style="color: #EF4444;"></i> Redis Cache</div>
+<div class="arch-block-desc">TTL: 20-30s<br>Absorbs Traffic</div>
+</div>
+<div class="arch-block" id="block-rest">
+<div class="arch-block-title"><i class="fas fa-cloud arch-icon" style="color: #166534;"></i> CG REST API</div>
+<div class="arch-block-desc">Phase 1: Prices<br>Updates every ~30s</div>
+</div>
+<div class="arch-block" id="block-ws">
+<div class="arch-block-title"><i class="fas fa-bolt arch-icon" style="color: #D97706;"></i> CG WebSocket</div>
+<div class="arch-block-desc">Phase 2: Streaming<br>Sub-second updates</div>
+</div>
+<!-- Labels -->
+<div class="connection-label" style="top: 255px; left: 240px;">HTTPS</div>
+<div class="connection-label" style="top: 170px; left: 410px;">Hit/Miss</div>
+<div class="connection-label" style="top: 190px; left: 510px;">Polling (Cache Miss)</div>
+<div class="connection-label" style="top: 340px; left: 510px;">Persistent Stream</div>
+</div>
+<!-- Right Notes Area -->
+<div class="notes-area">
+<div class="key-point-card highlight">
+<div class="key-point-title">
+<i class="fas fa-coins text-green-600 mr-2"></i>
+                        Smart Cost Modeling
+                    </div>
+<div class="key-point-text">
+<p>With caching (TTL 30s), your 2M users do <strong>not</strong> equal 2M API calls.</p>
+<div class="stat-box">
+                            Est. Load: ~5-10k calls/day<br>
+                            Result: Fits comfortably within Analyst Plan ($129/mo)
+                        </div>
+</div>
+</div>
+<div class="key-point-card">
+<div class="key-point-title">
+<i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Security Best Practice
+                    </div>
+<div class="key-point-text">
+<p>API keys live on your backend server only. Never expose keys in mobile app code to prevent unauthorized usage.</p>
+</div>
+</div>
+<div class="key-point-card">
+<div class="key-point-title">
+<i class="fas fa-tachometer-alt text-orange-600 mr-2"></i>
+                        Phase 2: WebSocket
+                    </div>
+<div class="key-point-text">
+<p>Switch to WebSocket for trading. Push-based architecture eliminates polling overhead and ensures sub-second price execution.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-bar"></div>
+</div>
+
+</body></html>
